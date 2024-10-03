@@ -1,0 +1,20 @@
+version: '3.8'  # Specify the version of the Docker Compose file format
+
+services:
+  api:
+    build:
+      context: ./api  # Directory containing the Dockerfile for the API service
+      dockerfile: Dockerfile  # Name of the Dockerfile to use for building the image
+    volumes:
+      - ../../models:/app/models  # Mount the local models directory into the API container
+    ports:
+      - "8000:8000"  # Port mapping for the API (host:container)
+
+  app:
+    build:
+      context: ./app  # Directory containing the Dockerfile for the app service
+      dockerfile: Dockerfile  # Name of the Dockerfile to use for building the image
+    ports:
+      - "8501:8501"  # Port mapping for the web application (host:container)
+    depends_on:
+      - api  # Ensure the app service starts after the api service
